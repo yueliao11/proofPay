@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "deploy:cf": "wrangler pages deploy dist --project-name proofpay --branch main",
+    "deploy:cf:preview": "wrangler pages deploy dist --project-name proofpay --branch preview"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
