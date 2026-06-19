@@ -1,14 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { ConnectButton } from "@mysten/dapp-kit";
-import { ShieldCheck } from "lucide-react";
+import { ConnectButton, useWallets } from "@mysten/dapp-kit";
+import { ShieldCheck, Wallet } from "lucide-react";
 
 const links = [
   { href: "/create", label: "Create Settlement" },
   { href: "/demo", label: "Demo Console" },
   { href: "/verify", label: "Verify Passport" },
 ];
+
+function WalletConnect() {
+  const wallets = useWallets();
+
+  if (wallets.length === 0) {
+    return (
+      <a
+        href="https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmafojhmhfhmflbh"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 rounded-xl border border-[#263244] bg-[#172033] px-3 py-2 text-xs font-medium text-[#94A3B8] hover:text-[#F8FAFC]"
+      >
+        <Wallet className="size-4" />
+        Install Sui Wallet
+      </a>
+    );
+  }
+
+  return <ConnectButton connectText="Connect Wallet" />;
+}
 
 export function Navbar() {
   return (
@@ -38,10 +58,10 @@ export function Navbar() {
 
         <div className="flex items-center gap-3">
           <div className="hidden sm:block">
-            <ConnectButton connectText="Connect Wallet" />
+            <WalletConnect />
           </div>
           <div className="sm:hidden">
-            <ConnectButton connectText="Connect" />
+            <WalletConnect />
           </div>
         </div>
       </div>
