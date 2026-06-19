@@ -1,0 +1,9 @@
+{
+  "network": "testnet",
+  "packageId": "0x7130eef3e9d9d2a578ffb8631c44f8b5df5567c17540ad332b5afda7d425c50a",
+  "upgradeCap": "0xc3169cb3cd2b277fc27eea04cbb489ea62adb563f8423b514962f81198664858",
+  "publishTxDigest": "A5tgAxVcVXQycAJyvxQ4CQGXFCnY8wdGgZ2y2wRctpRP",
+  "deployer": "0xa7110cb126d5553ff02616f9100cb385db200b2368766903b707b4275baa09c7",
+  "modules": ["proofpay"],
+  "timestamp": "2026-06-19T02:38:21Z"
+}

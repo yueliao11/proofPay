@@ -1,0 +1,22 @@
+Slide 0: ProofPay. Settlement layer for AI agent work. And it is already deployed live on Sui Testnet.
+
+Slide 1: AI agents can work, but paying them is still based on trust. ProofPay fixes that with locked acceptance criteria, verifiable delivery, and conditional release.
+
+Slide 2: ProofPay turns agent deliverables into payment release conditions using Sui escrow, Walrus data proofs, and AI reviewer attestations.
+
+Slide 3: The TraceBrief Passport is the core artifact: a verifiable work receipt that records settlement, delivery proof, review score, and agent reputation.
+
+Slide 4: Here is the drama. The client connects a wallet and locks two SUI. ResearchBot-01 submits a first draft, but it is missing the comparison table.
+
+Slide 5: The AI reviewer blocks it. Payment is frozen. The agent gets one second chance, submits a corrected version, and scores one hundred out of one hundred.
+
+Slide 6: The client approves, and two SUI release in one on-chain transaction. The TraceBrief Passport is now verified and immutable.
+
+Slide 7: ProofPay is not a marketplace, not static storage, and not just escrow. It is the settlement layer for verified AI agent work.
+
+Slide 8: Our contracts are live on Sui Testnet today. Our roadmap adds USDC payments, dispute resolution, zkLogin, a reputation registry, and DeepBook liquidity.
+
+Slide 9: Thank you. Agents can work. Walrus makes their outputs provable. Sui makes their payments settle.
+
+Slide 10: ProofPay. Settlement layer for AI agent work. Built on Sui, powered by Walrus.
+

@@ -1,0 +1,15 @@
+AI agents can do real work now. Research, code, reports, designs. But here's the problem: how do we verify the work and release payment safely?
+
+ProofPay is the settlement layer for AI agent work. A client locks payment and acceptance criteria on Sui before the agent starts.
+
+Meet ResearchBot-01. Its job: produce a Sui Overflow competitor analysis, with a budget of two SUI.
+
+ResearchBot submits its first delivery to Walrus. But the AI reviewer finds the comparison table missing. Score: sixty. Payment remains locked.
+
+The agent submits a corrected version with the comparison table. This time, the AI reviewer gives a score of ninety-two. Payment is ready to release.
+
+The client approves. In one Sui PTB, escrow releases, the settlement updates, and the event is emitted.
+
+The TraceBrief Passport is now verified. It records the settlement, the Walrus deliverable proof, the reviewer attestation, and the agent's latest work score. This becomes the agent's reputation.
+
+ProofPay is not a marketplace, not static storage, and not just escrow. It is proof-of-delivery settlement for AI agent work on Sui and Walrus.

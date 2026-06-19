@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProofPay Pitch Deck</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.min.css" />
+    <style>
+      :root {
+        --pp-bg: #0B1020;
+        --pp-surface: #111827;
+        --pp-card: #172033;
+        --pp-blue: #4DA3FF;
+        --pp-cyan: #5AC8FA;
+        --pp-green: #22C55E;
+        --pp-orange: #F59E0B;
+        --pp-red: #EF4444;
+        --pp-purple: #8B5CF6;
+        --pp-text: #F8FAFC;
+        --pp-muted: #94A3B8;
+        --pp-border: #263244;
+      }
+      body {
+        background: var(--pp-bg);
+        color: var(--pp-text);
+        font-family: Inter, Geist, system-ui, -apple-system, sans-serif;
+      }
+      .reveal {
+        font-family: Inter, Geist, system-ui, -apple-system, sans-serif;
+      }
+      .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+        color: var(--pp-text);
+        text-transform: none;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+      }
+      .reveal p, .reveal li {
+        color: var(--pp-muted);
+        font-size: 0.85em;
+        line-height: 1.5;
+      }
+      .reveal .slides section {
+        text-align: left;
+        padding: 40px;
+      }
+      .reveal .slides section.center {
+        text-align: center;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--pp-border);
+        font-size: 0.55em;
+        color: var(--pp-muted);
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+      .badge.blue { border-color: var(--pp-blue); color: var(--pp-blue); }
+      .badge.cyan { border-color: var(--pp-cyan); color: var(--pp-cyan); }
+      .badge.purple { border-color: var(--pp-purple); color: var(--pp-purple); }
+      .badge.green { border-color: var(--pp-green); color: var(--pp-green); }
+      .card {
+        background: var(--pp-card);
+        border: 1px solid var(--pp-border);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 16px;
+      }
+      .card h3 { color: var(--pp-text); font-size: 0.75em; margin-bottom: 8px; }
+      .card p { color: var(--pp-muted); font-size: 0.6em; margin: 0; }
+      .highlight { color: var(--pp-blue); }
+      .green { color: var(--pp-green); }
+      .orange { color: var(--pp-orange); }
+      .red { color: var(--pp-red); }
+      .purple { color: var(--pp-purple); }
+      .flow {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .flow-step {
+        background: var(--pp-card);
+        border: 1px solid var(--pp-border);
+        border-radius: 12px;
+        padding: 16px 20px;
+        font-size: 0.65em;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .flow-step .num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--pp-blue);
+        color: var(--pp-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.55em;
+      }
+      th, td {
+        text-align: left;
+        padding: 12px;
+        border-bottom: 1px solid var(--pp-border);
+      }
+      th { color: var(--pp-text); }
+      .metric {
+        display: inline-block;
+        text-align: center;
+        padding: 20px 24px;
+        background: var(--pp-card);
+        border: 1px solid var(--pp-border);
+        border-radius: 16px;
+        margin-right: 12px;
+      }
+      .metric .value {
+        font-size: 1.4em;
+        font-weight: 700;
+        color: var(--pp-blue);
+      }
+      .metric .label {
+        font-size: 0.5em;
+        color: var(--pp-muted);
+      }
+      .footer {
+        position: absolute;
+        bottom: 24px;
+        left: 40px;
+        font-size: 0.45em;
+        color: var(--pp-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- Slide 1 -->
+        <section class="center">
+          <h1 style="font-size: 2.2em; margin-bottom: 0.2em;">ProofPay</h1>
+          <p style="font-size: 1em; color: var(--pp-text);">Settlement layer for AI agent work.</p>
+          <div style="margin-top: 40px;">
+            <span class="badge blue">DeFi & Payments</span>
+            <span class="badge cyan">Sui</span>
+            <span class="badge purple">Walrus</span>
+            <span class="badge green">AI Agent Economy</span>
+          </div>
+          <p style="margin-top: 60px; font-size: 0.65em; color: var(--pp-muted);">
+            Agents can work. Walrus makes their outputs provable. Sui makes their payments settle.
+          </p>
+        </section>
+
+        <!-- Slide 2 -->
+        <section>
+          <h2>The Problem</h2>
+          <p style="margin-bottom: 32px;">AI agents can now do real work — research, code, reports, designs. But the agent economy still lacks a critical layer.</p>
+          <div class="grid grid-cols-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <div class="card">
+              <h3>Agents work</h3>
+              <p>They generate deliverables at scale, 24/7.</p>
+            </div>
+            <div class="card">
+              <h3>Work must be verified</h3>
+              <p>Outputs must be checked against locked acceptance criteria before payment.</p>
+            </div>
+            <div class="card">
+              <h3>Verified work gets paid</h3>
+              <p>Payment release must depend on proof, not trust.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 3 -->
+        <section>
+          <h2>What is ProofPay?</h2>
+          <p style="margin-bottom: 32px;">ProofPay turns AI agent deliverables into verifiable payment release conditions.</p>
+          <div class="flow">
+            <div class="flow-step"><span class="num">1</span> Client funds task & locks acceptance criteria on Sui</div>
+            <div class="flow-step"><span class="num">2</span> AI Agent submits deliverable to Walrus</div>
+            <div class="flow-step"><span class="num">3</span> Walrus stores verifiable delivery proof</div>
+            <div class="flow-step"><span class="num">4</span> AI Reviewer attests result against locked criteria</div>
+            <div class="flow-step"><span class="num">5</span> Sui releases payment only after passing attestation</div>
+            <div class="flow-step"><span class="num">6</span> TraceBrief Passport builds agent reputation</div>
+          </div>
+        </section>
+
+        <!-- Slide 4 -->
+        <section>
+          <h2>Core Artifact: TraceBrief Passport</h2>
+          <p style="margin-bottom: 24px;">A verifiable work receipt for AI agents.</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="card"><h3>Settlement</h3><p>Escrow amount, payment status, final settlement event.</p></div>
+            <div class="card"><h3>Delivery Proof</h3><p>Walrus blob ID, manifest hash, criteria hash.</p></div>
+            <div class="card"><h3>AI Review</h3><p>Reviewer score, attestation, report blob.</p></div>
+            <div class="card"><h3>Reputation</h3><p>Agent score, completed settlements, verified history.</p></div>
+          </div>
+        </section>
+
+        <!-- Slide 5 -->
+        <section>
+          <h2>Demo Scenario</h2>
+          <p style="margin-bottom: 24px;">Sui Overflow Competitor Analysis — 2 SUI budget.</p>
+          <div class="flow">
+            <div class="flow-step"><span class="num">1</span> Failed delivery: missing comparison table → <span class="orange">Score 60</span> → <span class="red">Payment locked</span></div>
+            <div class="flow-step"><span class="num">2</span> Corrected delivery: includes comparison table → <span class="green">Score 100</span> → <span class="green">Ready to release</span></div>
+            <div class="flow-step"><span class="num">3</span> Client approves → Sui releases 2 SUI → TraceBrief Passport verified</div>
+          </div>
+        </section>
+
+        <!-- Slide 6 -->
+        <section>
+          <h2>Why Sui?</h2>
+          <div class="grid grid-cols-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="card"><h3>Object-centric model</h3><p>AgentWorkSettlement and TraceBriefPassport are native Sui objects.</p></div>
+            <div class="card"><h3>Move enforcement</h3><p>State transitions and access controls are enforced on-chain.</p></div>
+            <div class="card"><h3>PTB atomicity</h3><p>Approve, release, update object, emit event — in one user action.</p></div>
+            <div class="card"><h3>Future primitives</h3><p>Invoice, reputation, and receivable objects emerge naturally.</p></div>
+          </div>
+        </section>
+
+        <!-- Slide 7 -->
+        <section>
+          <h2>Why Walrus?</h2>
+          <div class="grid grid-cols-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="card"><h3>Verifiable blobs</h3><p>Agent outputs and review reports live as Walrus blobs.</p></div>
+            <div class="card"><h3>Payment condition</h3><p>Payment release depends on verifiable delivery data.</p></div>
+            <div class="card"><h3>Referenced in passport</h3><p>TraceBrief Passport stores blob IDs and hashes.</p></div>
+            <div class="card"><h3>Availability proofs</h3><p>Contracts can check blob availability and lifecycle.</p></div>
+          </div>
+        </section>
+
+        <!-- Slide 8 -->
+        <section>
+          <h2>Differentiation</h2>
+          <table>
+            <thead>
+              <tr><th>Category</th><th>What they do</th><th>What ProofPay does</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Payment SDK</td><td>Secure payments</td><td>Locked criteria + proof + AI review + conditional release</td></tr>
+              <tr><td>Escrow primitive</td><td>Basic asset escrow</td><td>Proof-of-delivery settlement workflow</td></tr>
+              <tr><td>Evidence / Notary</td><td>Prove data existed</td><td>Use proof as a payment release condition</td></tr>
+              <tr><td>Freelance Marketplace</td><td>Match clients & workers</td><td>Embeddable settlement layer, not a marketplace</td></tr>
+              <tr><td>Agent Workflow</td><td>Delegate tasks</td><td>Settlement after delivery and verification</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Slide 9 -->
+        <section>
+          <h2>Product Boundary</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <div>
+              <h3 class="red">ProofPay is NOT</h3>
+              <ul>
+                <li>A marketplace</li>
+                <li>A generic payment SDK</li>
+                <li>Static proof storage</li>
+                <li>An agent permission wallet</li>
+                <li>A general memory protocol</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="green">ProofPay IS</h3>
+              <ul>
+                <li>A settlement layer</li>
+                <li>A proof-of-delivery protocol</li>
+                <li>A payment rail for verified AI agent work</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 10 -->
+        <section>
+          <h2>Traction & Roadmap</h2>
+          <div style="margin-bottom: 32px;">
+            <span class="metric"><span class="value">6</span><br/><span class="label">MVP Pages</span></span>
+            <span class="metric"><span class="value">5</span><br/><span class="label">Move Tests</span></span>
+            <span class="metric"><span class="value">6</span><br/><span class="label">Frontend Tests</span></span>
+            <span class="metric"><span class="value">1</span><br/><span class="label">Closed Demo Loop</span></span>
+          </div>
+          <div class="card"><h3>V1</h3><p>USDC payments, full revision workflow, dispute workflow, multiple milestones.</p></div>
+          <div class="card"><h3>V2</h3><p>zkLogin onboarding, agent reputation registry, passport display metadata, multi-reviewer attestation.</p></div>
+          <div class="card"><h3>V3</h3><p>Marketplace integrations, receivable objects, invoice financing, DeepBook liquidity for claims.</p></div>
+        </section>
+
+        <!-- Slide 11 -->
+        <section class="center">
+          <h2 style="font-size: 1.8em;">ProofPay</h2>
+          <p style="font-size: 1em; color: var(--pp-text);">Settlement layer for AI agent work.</p>
+          <p style="margin-top: 48px; font-size: 0.7em; color: var(--pp-muted);">
+            Built on Sui · Powered by Walrus · DeFi & Payments
+          </p>
+          <div style="margin-top: 32px;">
+            <span class="badge blue">TraceBrief Passport</span>
+            <span class="badge green">Verifiable AI Outputs</span>
+            <span class="badge purple">Agent Reputation</span>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        transition: "slide",
+        width: 1280,
+        height: 720,
+      });
+    </script>
+  </body>
+</html>
