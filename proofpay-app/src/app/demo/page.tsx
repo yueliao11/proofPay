@@ -15,14 +15,8 @@ import { AgentReputationCard } from "@/components/AgentReputationCard";
 import { TraceBriefPassportCard } from "@/components/TraceBriefPassportCard";
 import { HashDisplay } from "@/components/HashDisplay";
 import { AddressDisplay } from "@/components/AddressDisplay";
-import {
-  resetDemo,
-  getSettlement,
-  submitDelivery,
-  submitReview,
-  approveAndRelease,
-  DEMO_ID,
-} from "@/lib/sui";
+import { useSettlementActions } from "@/lib/useSettlementActions";
+import { resetDemo, DEMO_ID } from "@/lib/sui";
 import {
   FAILED_MANIFEST,
   CORRECTED_MANIFEST,
@@ -69,14 +63,17 @@ export default function DemoPage() {
   const [celebrate, setCelebrate] = useState(false);
   const demoWallet = useDemoWallet();
   const connected = demoWallet.connected;
+  const { getSettlement, submitDelivery, submitReview, approveAndRelease, chainEnabled } =
+    useSettlementActions();
 
   useEffect(() => {
-    const s = getSettlement(DEMO_ID);
-    if (s) {
-      setSettlement(s);
-      setCurrentStep(stepFromStatus(s));
-    }
-  }, []);
+    getSettlement(DEMO_ID).then((s) => {
+      if (s) {
+        setSettlement(s);
+        setCurrentStep(stepFromStatus(s));
+      }
+    });
+  }, [getSettlement]);
 
   const addLog = (msg: string) => {
     setLogs((prev) => [...prev.slice(-5), msg]);
@@ -95,45 +92,47 @@ export default function DemoPage() {
         setActiveRole("agent");
         break;
       case 2:
-        s = submitDelivery(s!.id, FAILED_MANIFEST);
+        s = await submitDelivery(s!, FAILED_MANIFEST);
         setSettlement(s);
         setCurrentStep(2);
         setTxDigest(makeTxDigest());
         addLog("Submitted failed delivery manifest.");
         setActiveRole("reviewer");
         break;
-      case 3:
+      case 3: {
         const failedReview = deterministicReview(s!.acceptanceCriteria, FAILED_MANIFEST);
         failedReview.settlementId = s!.id;
         failedReview.agent = s!.agent.name;
-        s = submitReview(s!.id, failedReview);
+        s = await submitReview(s!, failedReview);
         setSettlement(s);
         setCurrentStep(3);
         setTxDigest(makeTxDigest());
         addLog(`AI review failed with score ${failedReview.score}. Payment remains locked.`);
         setActiveRole("agent");
         break;
+      }
       case 4:
-        s = submitDelivery(s!.id, CORRECTED_MANIFEST);
+        s = await submitDelivery(s!, CORRECTED_MANIFEST);
         setSettlement(s);
         setCurrentStep(4);
         setTxDigest(makeTxDigest());
         addLog("Submitted corrected delivery manifest.");
         setActiveRole("reviewer");
         break;
-      case 5:
+      case 5: {
         const passingReview = deterministicReview(s!.acceptanceCriteria, CORRECTED_MANIFEST);
         passingReview.settlementId = s!.id;
         passingReview.agent = s!.agent.name;
-        s = submitReview(s!.id, passingReview);
+        s = await submitReview(s!, passingReview);
         setSettlement(s);
         setCurrentStep(5);
         setTxDigest(makeTxDigest());
         addLog(`AI review passed with score ${passingReview.score}. Payment ready to release.`);
         setActiveRole("client");
         break;
+      }
       case 6:
-        s = approveAndRelease(s!.id);
+        s = await approveAndRelease(s!);
         setSettlement(s);
         setCurrentStep(6);
         setTxDigest(makeTxDigest());

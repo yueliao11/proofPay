@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { WalrusProofCard } from "@/components/WalrusProofCard";
-import { getSettlement, submitDelivery } from "@/lib/sui";
+import { useSettlementActions } from "@/lib/useSettlementActions";
 import { FAILED_MANIFEST, CORRECTED_MANIFEST, FAILED_DELIVERY_CONTENT, CORRECTED_DELIVERY_CONTENT } from "@/lib/demoData";
 import { AgentWorkSettlement, DeliveryManifest } from "@/lib/types";
 import { statusLabel, statusColor } from "@/lib/format";
@@ -26,15 +26,17 @@ export default function SubmitDeliveryPage() {
   const [settlement, setSettlement] = useState<AgentWorkSettlement | undefined>();
   const [manifest, setManifest] = useState<DeliveryManifest>(CORRECTED_MANIFEST);
   const [submitting, setSubmitting] = useState(false);
+  const { getSettlement, submitDelivery } = useSettlementActions();
 
   useEffect(() => {
     if (!id) return;
-    const s = getSettlement(id);
-    setSettlement(s);
-    if (s?.status === "needs_revision") {
-      setManifest(CORRECTED_MANIFEST);
-    }
-  }, [id]);
+    getSettlement(id).then((s) => {
+      setSettlement(s);
+      if (s?.status === "needs_revision") {
+        setManifest(CORRECTED_MANIFEST);
+      }
+    });
+  }, [id, getSettlement]);
 
   if (!settlement) {
     return (
@@ -62,11 +64,16 @@ export default function SubmitDeliveryPage() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!settlement) return;
     setSubmitting(true);
-    submitDelivery(settlement.id, manifest);
-    router.push(`/settlements/${settlement.id}`);
+    try {
+      await submitDelivery(settlement, manifest);
+      router.push(`/settlements/${settlement.id}`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

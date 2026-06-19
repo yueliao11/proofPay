@@ -35,6 +35,12 @@ export function getSettlement(id: string): AgentWorkSettlement | undefined {
   return load()[id];
 }
 
+export function saveSettlement(id: string, settlement: AgentWorkSettlement) {
+  const state = load();
+  state[id] = settlement;
+  save(state);
+}
+
 export function createSettlement(
   settlement: Omit<AgentWorkSettlement, "id" | "createdAt" | "updatedAt">
 ): AgentWorkSettlement {

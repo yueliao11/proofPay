@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { createSettlement } from "@/lib/sui";
+import { useSettlementActions } from "@/lib/useSettlementActions";
 import { DEMO_AGENT, DEMO_CRITERIA } from "@/lib/demoData";
 import { Criterion } from "@/lib/types";
 import { ArrowLeft, Lock, Eye, Sparkles } from "lucide-react";
@@ -22,6 +22,7 @@ const defaultCriteriaText = DEMO_CRITERIA.map((c) => c.text).join("\n");
 export default function CreateSettlementPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { createSettlement, chainEnabled, walletAddress } = useSettlementActions();
   const [form, setForm] = useState({
     title: "Sui Overflow Competitor Analysis",
     description:
@@ -45,22 +46,27 @@ export default function CreateSettlementPage() {
       critical: text.toLowerCase().includes("must") || text.toLowerCase().includes("table") || text.toLowerCase().includes("at least"),
     }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const settlement = createSettlement({
-      client: "0xclienta1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b",
-      agent: { address: form.agentAddress, name: form.agentName },
-      amount: Number(form.budget) || 0,
-      asset: "SUI",
-      title: form.title,
-      description: form.description,
-      acceptanceCriteria: criteriaList,
-      acceptanceCriteriaHash: `0x${Math.random().toString(16).slice(2, 66).padEnd(64, "0")}`,
-      status: "funded",
-      paymentStatus: "locked",
-    });
-    router.push(`/settlements/${settlement.id}`);
+    try {
+      const clientAddress = chainEnabled && walletAddress ? walletAddress : "0xclienta1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b";
+      const settlement = await createSettlement({
+        client: clientAddress,
+        agent: { address: form.agentAddress, name: form.agentName },
+        amount: Number(form.budget) || 0,
+        asset: "SUI",
+        title: form.title,
+        description: form.description,
+        acceptanceCriteria: criteriaList,
+        acceptanceCriteriaHash: `0x${Math.random().toString(16).slice(2, 66).padEnd(64, "0")}`,
+        status: "funded",
+        paymentStatus: "locked",
+      });
+      router.push(`/settlements/${settlement.id}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

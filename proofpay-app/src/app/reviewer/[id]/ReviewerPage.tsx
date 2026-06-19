@@ -12,7 +12,7 @@ import { CriteriaCheckList } from "@/components/CriteriaCheckList";
 import { ReviewScore } from "@/components/ReviewScore";
 import { WalrusProofCard } from "@/components/WalrusProofCard";
 import { HashDisplay } from "@/components/HashDisplay";
-import { getSettlement, submitReview } from "@/lib/sui";
+import { useSettlementActions } from "@/lib/useSettlementActions";
 import { deterministicReview } from "@/lib/reviewer";
 import { AgentWorkSettlement, ReviewResult } from "@/lib/types";
 import { statusLabel, statusColor } from "@/lib/format";
@@ -27,13 +27,15 @@ export default function ReviewerPage() {
   const [review, setReview] = useState<ReviewResult | undefined>();
   const [running, setRunning] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const { getSettlement, submitReview } = useSettlementActions();
 
   useEffect(() => {
     if (!id) return;
-    const s = getSettlement(id);
-    setSettlement(s);
-    if (s?.reviewResult) setReview(s.reviewResult);
-  }, [id]);
+    getSettlement(id).then((s) => {
+      setSettlement(s);
+      if (s?.reviewResult) setReview(s.reviewResult);
+    });
+  }, [id, getSettlement]);
 
   if (!settlement) {
     return (
@@ -64,11 +66,15 @@ export default function ReviewerPage() {
     setRunning(false);
   };
 
-  const handleSubmit = () => {
-    if (!review) return;
+  const handleSubmit = async () => {
+    if (!review || !settlement) return;
     setSubmitting(true);
-    submitReview(settlement.id, review);
-    router.push(`/settlements/${settlement.id}`);
+    try {
+      await submitReview(settlement, review);
+      router.push(`/settlements/${settlement.id}`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const actionLabel = review && review.result === "pass" ? "Approve & Release" : "Attach Attestation";

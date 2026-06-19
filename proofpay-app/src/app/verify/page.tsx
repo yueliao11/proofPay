@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { TraceBriefPassportCard } from "@/components/TraceBriefPassportCard";
-import { getSettlement, buildPassport, resetDemo, DEMO_ID } from "@/lib/sui";
+import { useSettlementActions } from "@/lib/useSettlementActions";
+import { buildPassport, resetDemo, DEMO_ID } from "@/lib/sui";
 import { TraceBriefPassport } from "@/lib/types";
 import { ShieldCheck, Search, Bot, AlertCircle } from "lucide-react";
 
@@ -18,8 +19,9 @@ export default function VerifyPage() {
   const [passport, setPassport] = useState<TraceBriefPassport | undefined>();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { getSettlement } = useSettlementActions();
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     setError("");
     setPassport(undefined);
     if (!id.trim()) {
@@ -27,22 +29,28 @@ export default function VerifyPage() {
       return;
     }
     setLoading(true);
-    const settlement = getSettlement(id.trim());
-    if (!settlement) {
-      setError("Settlement not found.");
-    } else {
-      setPassport(buildPassport(settlement));
+    try {
+      const settlement = await getSettlement(id.trim());
+      if (!settlement) {
+        setError("Settlement not found.");
+      } else {
+        setPassport(buildPassport(settlement));
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  const handleDemo = () => {
+  const handleDemo = async () => {
     setLoading(true);
     setError("");
-    const demo = getSettlement(DEMO_ID) || resetDemo();
-    setPassport(buildPassport(demo));
-    setId(demo.id);
-    setLoading(false);
+    try {
+      const demo = (await getSettlement(DEMO_ID)) || resetDemo();
+      setPassport(buildPassport(demo));
+      setId(demo.id);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

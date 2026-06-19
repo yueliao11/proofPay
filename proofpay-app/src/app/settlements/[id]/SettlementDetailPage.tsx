@@ -13,7 +13,7 @@ import { PaymentSettlementCard } from "@/components/PaymentSettlementCard";
 import { AgentReputationCard } from "@/components/AgentReputationCard";
 import { HashDisplay } from "@/components/HashDisplay";
 import { AddressDisplay } from "@/components/AddressDisplay";
-import { getSettlement, approveAndRelease } from "@/lib/sui";
+import { useSettlementActions } from "@/lib/useSettlementActions";
 import { DEMO_REPUTATION, buildPassingReputation } from "@/lib/demoData";
 import { AgentWorkSettlement, AgentReputation } from "@/lib/types";
 import { statusLabel, statusColor, formatAmount, formatDate } from "@/lib/format";
@@ -36,11 +36,16 @@ export default function SettlementDetailPage() {
   const id = typeof params.id === "string" ? params.id : "";
   const [settlement, setSettlement] = useState<AgentWorkSettlement | undefined>();
   const [txDigest, setTxDigest] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const { getSettlement, approveAndRelease } = useSettlementActions();
 
   useEffect(() => {
     if (!id) return;
-    setSettlement(getSettlement(id));
-  }, [id]);
+    setLoading(true);
+    getSettlement(id)
+      .then(setSettlement)
+      .finally(() => setLoading(false));
+  }, [id, getSettlement]);
 
   if (!settlement) {
     return (
@@ -73,10 +78,16 @@ export default function SettlementDetailPage() {
     };
   }
 
-  const handleApprove = () => {
-    approveAndRelease(settlement.id);
-    setTxDigest(`0x${Math.random().toString(16).slice(2, 66).padEnd(64, "0")}`);
-    setSettlement(getSettlement(settlement.id));
+  const handleApprove = async () => {
+    if (!settlement) return;
+    setLoading(true);
+    try {
+      const updated = await approveAndRelease(settlement);
+      setTxDigest(`0x${Math.random().toString(16).slice(2, 66).padEnd(64, "0")}`);
+      setSettlement(updated);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const actionButton = () => {

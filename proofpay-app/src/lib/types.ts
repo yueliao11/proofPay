@@ -70,6 +70,7 @@ export interface TraceBriefPassport {
 
 export interface AgentWorkSettlement {
   id: string;
+  objectId?: string;
   client: string;
   agent: Agent;
   amount: number;
@@ -81,6 +82,7 @@ export interface AgentWorkSettlement {
   status: SettlementStatus;
   paymentStatus: PaymentStatus;
   passportId?: string;
+  passportObjectId?: string;
   createdAt: string;
   updatedAt: string;
   deliveryManifest?: DeliveryManifest;
